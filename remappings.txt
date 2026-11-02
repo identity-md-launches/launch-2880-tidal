@@ -1,0 +1,4 @@
+v4-core/=deps/v4-core/
+forge-std/=deps/forge-std/src/
+@openzeppelin/contracts/=deps/openzeppelin-contracts/contracts/
+solmate/=deps/solmate/

@@ -1,0 +1,22 @@
+[
+  {
+    "repository": "Uniswap/v4-core",
+    "commit": "bea7f6d1c11cd5dc4f0d5151ffa37a1c239feee6",
+    "path": "deps/v4-core"
+  },
+  {
+    "repository": "foundry-rs/forge-std",
+    "commit": "77041d2ce690e692d6e03cc812b57d1ddaa4d505",
+    "path": "deps/forge-std"
+  },
+  {
+    "repository": "OpenZeppelin/openzeppelin-contracts",
+    "commit": "69c8def5f222ff96f2b5beff05dfba996368aa79",
+    "path": "deps/openzeppelin-contracts"
+  },
+  {
+    "repository": "transmissions11/solmate",
+    "commit": "89365b880c4f3c786bdd453d4b8e8fe410344a69",
+    "path": "deps/solmate"
+  }
+]
