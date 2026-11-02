@@ -1,0 +1,32 @@
+{
+  "kind": "univ4_hook",
+  "hook": {
+    "contract": "TidalHook",
+    "constructorArgs": [
+      "$poolManager",
+      "$token",
+      "$owner",
+      "$factory"
+    ],
+    "permissions": [
+      "afterInitialize",
+      "beforeSwap",
+      "afterSwap",
+      "beforeSwapReturnDelta",
+      "afterSwapReturnDelta"
+    ]
+  },
+  "token": {
+    "contract": "TidalToken",
+    "name": "Tidal",
+    "symbol": "TIDAL",
+    "decimals": 18
+  },
+  "pool": {
+    "pairedCurrency": "0x0000000000000000000000000000000000000000",
+    "fee": 12500,
+    "tickSpacing": 60,
+    "initialPrice": "79228162514264337593543950336"
+  },
+  "notes": "TidalHook serves one native ETH/TIDAL pool. Its immutable hook fees are additional to the fixed 1.25% LP fee; the 50/50 split applies only to hook fees. The dynamic hook component starts at 0.30% and is capped at 2.00%. It uses cumulative absolute tick movement across swaps in each of the last eight blocks, capped at 340 ticks per block, with each block's contribution fading linearly over eight blocks and sensitivity of 50 fee-pips per weighted tick. The rate returns to base after eight quiet blocks. Each swap pays the previously observed rate and updates the signal for subsequent swaps. The launch surcharge starts at 20% in the initialization block, falls by one percentage point per block, and is zero at age 20; it is added to the dynamic component, giving a maximum hook rate of 22% during launch. This discourages sniping but does not prevent bots or price manipulation. All hook fees are collected in native ETH. Cumulatively, half accrues to the creator's treasury, initially $owner, and half to buybacks, with an odd wei carried to buybacks until balanced by later fees. The owner may change the treasury recipient; anyone may call claimTreasury to pay that recipient. Buyback allocation is automatic, but execution requires the owner to call executeBuyback with an ETH budget, positive minimum token output, price limit and deadline no more than 30 minutes ahead. Buybacks purchase TIDAL in this pool and call TidalToken.burn in the same transaction; unused budget remains reserved. Buybacks pay the LP fee without a recursive hook fee. Pending funds are not already burned and can remain queued if the owner does not execute. If the PoolManager lacks ETH during a swap callback, collection mints ETH ERC-6909 claims instead; redeemClaims is permissionless, treasury payouts redeem their shortfall, and buybacks can spend claims directly. A rejecting treasury blocks its payout, not swaps or buybacks. afterInitialize requires the PoolManager caller and $factory sender, validates the pool and starts the launch clock. Swap and unlock callbacks also require the PoolManager. Native-specified partial fills revert; token-specified partial fills are charged on actual ETH amounts. No liquidity callbacks are enabled. The hook address must encode permission mask 0x10cc. TidalToken has no constructor arguments and provides ordinary ERC-20 transfers and holder-only burning. The listed initialPrice is the required nominal value; the deployer derives the actual opening price from the separately versioned launch policy."
+}
